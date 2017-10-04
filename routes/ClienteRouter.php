@@ -1,8 +1,8 @@
 <?php
     global $app;
     
-    $app->get('/cliente',  function () {			
-        $clienteDAO = ClienteDAO();
+    $app->get('/cliente',  function ($request, $response) {			
+        $clienteDAO = new ClienteDAO();
         $clientes = array();
         $clientes = $clienteDAO->getAll();
         
@@ -19,10 +19,10 @@
         return $newResponse;
     });
     
-    $app->get('/cliente/{id}',  function () {
+    $app->get('/cliente/{id}',  function ($request, $response) {
         $id = $request->getAttribute('id');
 
-        $clienteDAO = ClienteDAO();
+        $clienteDAO = new ClienteDAO();
         $cliente = $clienteDAO->getCliente($id);        
 
         $json = array('id'=>$cliente->getIdCliente(),
@@ -34,7 +34,7 @@
         return $newResponse;
 	});
         
-    $app->post('/pedido', function($request, $response) {
+    $app->post('/cliente', function($request, $response) {
         $cliente = new Cliente();
         $body = $request->getParsedBody();
 
@@ -54,7 +54,7 @@
         $id = $request->getAttribute('id');
         $body = $request->getParsedBody();
         
-        $clienteDAO = ClienteDAO();
+        $clienteDAO = new ClienteDAO();
         $cliente = $clienteDAO->getCliente($id);
         
         $cliente->setNome($body['nome']);
@@ -69,12 +69,32 @@
         return $newResponse;
     })->add($validJson);
         
-    $app->delete('/pedido/delete/`{id}', function($request, $response) {
+    $app->delete('/cliente/delete/{id}', function($request, $response) {
         $id = $request->getAttribute('id');
-        $clienteDAO = ClienteDAO();
+        $clienteDAO = new ClienteDAO();
 
         $clienteDAO->delete($id);
         
         $data = array('valido' => true);
         $newResponse = $response->withJson($data);
     });
+
+    $app->get('/cliente/{limit}/{offset}',  function ($request, $response) {	
+		$limit = $request->getAttribute('limit');
+        $offset = $request->getAttribute('offset');
+
+        $clienteDAO = new ClienteDAO();
+        $clientes = array();
+        $clientes = $clienteDAO->getAllPag($limit, $offset);
+        
+        $json = array();
+        foreach ($clientes as $cliente) {
+            
+            $json[] = array('id'=>$cliente->getIdCliente(),
+            'nome'=>$cliente->getNome(),
+            'email'=>$cliente->getEmail(),
+            'telefone'=>$cliente->getTelefone());
+        }
+        
+        return json_encode($json);
+	});

@@ -1,7 +1,7 @@
 <?php
     global $app;
     
-    $app->get('/pedido',  function () {			
+    $app->get('/pedido',  function ($request, $response) {			
         $pedidoDAO = new PedidoDAO();
         $pedidos = array();
         $pedidos = $pedidoDAO->getAll();
@@ -56,3 +56,27 @@
         $data = array('valido' => true);
         $newResponse = $response->withJson($data);
     })->add($validJson);
+
+    $app->get('/pedido/{limit}/{offset}',  function ($request, $response) {	
+		$limit = $request->getAttribute('limit');
+        $offset = $request->getAttribute('offset');
+
+        $pedidoDAO = new PedidoDAO();
+        $pedidos = array();
+        $pedidos = $pedidoDAO->getAllPag($limit, $offset);
+        
+        $json = array();
+        foreach ($pedidos as $pedido) {
+
+            $clienteDAO = new ClienteDAO();
+            $cliente = $clienteDAO->getCliente($pedido->getIdProduto());
+
+            $produtoDAO = new ProdutoDAO();
+            $produto = $produtoDAO->getProduto($pedido->getIdCliente());
+
+            $json[] = array('cliente'=>$cliente->getNome(),
+            'produto'=>$produto->getNome());
+        }
+        
+        return json_encode($json);
+	});

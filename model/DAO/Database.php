@@ -2,7 +2,7 @@
     class Database {
         private static $DBHOST = 'localhost';
 		private static $DBPORT = '3306';
-		private static $DBNAME = 'EstoqueStudiorama';
+		private static $DBNAME = 'estoquestudiorama';
 		private static $DBUSER = 'root';
 		private static $DBPASS = '';
 		private static $con;

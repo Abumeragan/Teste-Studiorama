@@ -32,7 +32,7 @@
             $row = $sql->fetch();
             
             $produto = new Produto();
-            $produto->setIdProduto((int)$row['idproduto']);
+            $produto->setIdProduto((int)$row['idProduto']);
             $produto->setNome($row['nome']);            
             $produto->setDescricao($row['descricao']); 
             $produto->setPreco($row['preco']);            
@@ -45,10 +45,29 @@
             $sql = "SELECT * FROM produto";
             foreach ($this->con->query($sql) as $row) {
                 $produto = new Produto();
-                $produto->setIdProduto((int)$row['idproduto']);
+                $produto->setIdProduto((int)$row['idProduto']);
                 $produto->setNome($row['nome']);            
                 $produto->setDescricao($row['descricao']); 
                 $produto->setPreco($row['preco']);   
+                $produtos[] = $produto;
+            }
+            return $produtos;
+        }
+
+        public function getAllPag($limit, $offset) {
+            $produtos = array();
+            $sql = $this->con->prepare("SELECT * FROM produto ORDER BY idProduto DESC LIMIT :limit OFFSET :offset");
+            $sql->bindValue(':limit', (INT)$limit, PDO::PARAM_INT);
+            $sql->bindValue(':offset', (INT)$offset, PDO::PARAM_INT);            
+            $sql->execute();
+             
+            foreach ($sql->fetchAll() as $row) {  
+                $produto = new Produto();                
+                $produto->setIdProduto((int)$row['idProduto']);
+                $produto->setNome($row['nome']);
+                $produto->setDescricao($row['descricao']);
+                $produto->setPreco($row['preco']);
+
                 $produtos[] = $produto;
             }
             return $produtos;

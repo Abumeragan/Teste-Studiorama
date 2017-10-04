@@ -31,4 +31,21 @@
             }
             return $pedidos;
         }
+
+        public function getAllPag($limit, $offset) {
+            $Pedidos = array();
+            $sql = $this->con->prepare("SELECT * FROM pedido ORDER BY idCliente DESC LIMIT :limit OFFSET :offset");
+            $sql->bindValue(':limit', (INT)$limit, PDO::PARAM_INT);
+            $sql->bindValue(':offset', (INT)$offset, PDO::PARAM_INT);            
+            $sql->execute();
+             
+            foreach ($sql->fetchAll() as $row) {  
+                $pedido = new Pedido();                
+                $pedido->setIdProduto((int)$row['idProduto']);
+                $pedido->setIdCLiente((int)$row['idCliente']);
+
+                $Pedidos[] = $pedido;
+            }
+            return $Pedidos;
+        }
 }

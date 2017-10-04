@@ -22,7 +22,7 @@
         }
 
         public function getPreco(){
-            return $this->Preco;
+            return $this->preco;
         }
 
         public function setIdProduto($idProduto){

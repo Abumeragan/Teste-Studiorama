@@ -53,4 +53,23 @@
             }
             return $clientes;
         }
+
+        public function getAllPag($limit, $offset) {
+            $clientes = array();
+            $sql = $this->con->prepare("SELECT * FROM cliente ORDER BY idCliente DESC LIMIT :limit OFFSET :offset");
+            $sql->bindValue(':limit', (INT)$limit, PDO::PARAM_INT);
+            $sql->bindValue(':offset', (INT)$offset, PDO::PARAM_INT);            
+            $sql->execute();
+             
+            foreach ($sql->fetchAll() as $row) {  
+                $cliente = new Cliente();                
+                $cliente->setIdCLiente((int)$row['idCliente']);
+                $cliente->setNome($row['nome']);
+                $cliente->setEmail($row['email']);
+                $cliente->setTelefone($row['telefone']);
+
+                $clientes[] = $cliente;
+            }
+            return $clientes;
+        }
 }
