@@ -14,7 +14,7 @@
             $sql->execute();            
         }
         public function update($produto) {
-            $sql = $this->con->prepare("UPDATE produto SET nome = ?, descricao = ?, preco = ?, WHERE idProduto = ?");
+            $sql = $this->con->prepare("UPDATE produto SET nome = ?, descricao = ?, preco = ? WHERE idProduto = ?");
 			$sql->bindParam(1, $produto->getNome());
             $sql->bindParam(2, $produto->getDescricao());
             $sql->bindParam(3, $produto->getPreco());

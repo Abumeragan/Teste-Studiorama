@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="pt-br"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -6,7 +5,7 @@
     <meta name="author" content="Rodrigo Dos Santos">
     <link rel="icon" href="https://v4-alpha.getbootstrap.com/favicon.ico">
 
-    <title>Controle de Estoque - Novo Cliente</title>
+    <title>Controle de Estoque - Editar Produto</title>
 
     <!-- Bootstrap core CSS -->
     <link href="./css/bootstrap.min.css" rel="stylesheet">
@@ -16,6 +15,21 @@
   </head>
 
   <body>
+
+  <?php
+        require_once('./model/Produto.php');
+        require_once('./model/DAO/ProdutoDAO.php');
+        $id = $_GET['id'];
+        
+        $produtoDAO = new ProdutoDAO();
+        $produto = $produtoDAO->getproduto($id);
+
+        $id = $produto->getIdProduto();
+        $nome = $produto->getNome();
+        $descricao = $produto->getdescricao();
+        $preco = $produto->getPreco();
+        
+    ?>  
 
     <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
       <button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +53,7 @@
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <div class="container">
-        <h3 class="display-3">Novo cliente</h3>
+        <h3 class="display-3">Editar produto</h3>
       </div>
     </div>
 
@@ -49,50 +63,44 @@
         <table class="table">
 		  <form method="post">
 			  <div class="form-group">
-				<label for="idCliente">ID Cliente</label>
-				<input type="number" class="form-control" id="idCliente" placeholder="ID" disabled>
+				<label for="idProduto">ID Produto</label>
+				<input type="number" class="form-control" id="idProduto" placeholder="ID" value="<?php echo htmlspecialchars($id); ?>" disabled>
 			  </div>
 			  
 			  <div class="form-group">
-				<label for="nomeCliente">Nome do cliente</label>
-				<input type="text" class="form-control" id="nomeCliente" placeholder="Nome do Cliente" name="nomeCliente" maxlength="45">
-			  </div>
-			  
-			  
-			  <div class="form-group">
-				<label for="emailCliente">E-mail</label>
-				<input type="email" class="form-control" id="email" placeholder="E-mail" name="email" maxlength="60">
+				<label for="nomeProduto">Nome do produto</label>
+				<input type="text" class="form-control" id="nomeProduto" placeholder="Nome do Produto" name="nomeProduto" maxlength="45" value="<?php echo htmlspecialchars($nome); ?>">
 			  </div>
 			  
 			  
 			  <div class="form-group">
-				<label for="telefoneCliente">Telefone</label>
-				<input type="teç" class="form-control" id="telefoneCliente" placeholder="Telefone" name="telefone" maxlength="15">
+				<label for="descricaoProduto">Descrição do produto</label>
+				<input type="text" class="form-control" id="descricaoProduto" placeholder="Descrição" name="descricaoProduto" maxlength="100" value="<?php echo htmlspecialchars($descricao); ?>" >
+			  </div>
+			  
+			  
+			  <div class="form-group">
+				<label for="precoProduto">Preço do produto</label>
+				<input type="text" class="form-control" id="precoProduto" placeholder="Preço" name="precoProduto" maxlength="22" value="<?php echo htmlspecialchars($preco); ?>" >
         </div>
+        
+        <input type="submit" class="btn btn-primary" value="Atualizar" name="atualizar">
 
         <?php
-        require_once('./model/Cliente.php');
-        require_once('./model/DAO/ClienteDAO.php');
+            $produto->setIdProduto($id);
+            $produto->setNome($_POST['nomeProduto']);
+            $produto->setDescricao($_POST['descricaoProduto']);
+            $produto->setPreco($_POST['precoProduto']);
+            $produtoDAO->update($produto);
 
-          if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if(isset($_POST['nomeCliente'])){
-              
-              $cliente = new Cliente();
-              $cliente->setNome($_POST['nomeCliente']);
-              $cliente->setEmail($_POST['email']);
-              $cliente->setTelefone($_POST['telefone']);
-              
-              $clienteDAO = new ClienteDAO();
-              $clienteDAO->create($cliente);
+            if(isset($_POST["atualizar"])){
+                $produtoDAO->update($produto);
             }
-          }
-	  ?>
-        
-			  
-			  <input type="submit" class="btn btn-primary" value="Cadastrar">
-    </form>
-
-    </div>
+    ?>
+		
+		</form>
+		
+      </div>
 
       <hr>
 
@@ -100,6 +108,7 @@
         <p>© Rodrigo Dos Santos 2017</p>
       </footer>
     </div> <!-- /container -->
+
 
 
     <!-- Bootstrap core JavaScript
@@ -110,6 +119,6 @@
     <script src="https://getbootstrap.com/assets/js/vendor/popper.min.js"></script>
     <script src="https://getbootstrap.com/dist/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="https://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>  
-
-</body></html>
+    <script src="https://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+    
+</body> </html>

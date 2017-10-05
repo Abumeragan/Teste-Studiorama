@@ -14,7 +14,7 @@
             $sql->execute();            
         }
         public function update($cliente) {
-            $sql = $this->con->prepare("UPDATE cliente SET nome = ?, email = ?, telefone = ?, WHERE idCliente = ?");
+            $sql = $this->con->prepare("UPDATE cliente SET nome = ?, email = ?, telefone = ? WHERE idCliente = ?");
 			$sql->bindParam(1, $cliente->getNome());
             $sql->bindParam(2, $cliente->getEmail());
             $sql->bindParam(3, $cliente->getTelefone());

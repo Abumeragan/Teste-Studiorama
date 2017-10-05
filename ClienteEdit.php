@@ -6,7 +6,7 @@
     <meta name="author" content="Rodrigo Dos Santos">
     <link rel="icon" href="https://v4-alpha.getbootstrap.com/favicon.ico">
 
-    <title>Controle de Estoque - Novo Cliente</title>
+    <title>Controle de Estoque - Editar Cliente</title>
 
     <!-- Bootstrap core CSS -->
     <link href="./css/bootstrap.min.css" rel="stylesheet">
@@ -16,6 +16,21 @@
   </head>
 
   <body>
+
+  <?php
+        require_once('./model/Cliente.php');
+        require_once('./model/DAO/ClienteDAO.php');
+        $id = $_GET['id'];
+        
+        $clienteDAO = new ClienteDAO();
+        $cliente = $clienteDAO->getCliente($id);
+
+        $id = $cliente->getIdCliente();
+        $nome = $cliente->getNome();
+        $email = $cliente->getEmail();
+        $telefone = $cliente->getTelefone();
+        
+    ?>  
 
     <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
       <button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +54,7 @@
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <div class="container">
-        <h3 class="display-3">Novo cliente</h3>
+        <h3 class="display-3">Editar cliente</h3>
       </div>
     </div>
 
@@ -50,46 +65,40 @@
 		  <form method="post">
 			  <div class="form-group">
 				<label for="idCliente">ID Cliente</label>
-				<input type="number" class="form-control" id="idCliente" placeholder="ID" disabled>
+				<input type="number" class="form-control" id="idCliente" placeholder="ID"  name="idCliente"  value="<?php echo htmlspecialchars($id); ?>" disabled>
 			  </div>
 			  
 			  <div class="form-group">
 				<label for="nomeCliente">Nome do cliente</label>
-				<input type="text" class="form-control" id="nomeCliente" placeholder="Nome do Cliente" name="nomeCliente" maxlength="45">
+				<input type="text" class="form-control" id="nomeCliente" placeholder="Nome do Cliente" name="nomeCliente" maxlength="45" value="<?php echo htmlspecialchars($nome); ?>" >
 			  </div>
 			  
 			  
 			  <div class="form-group">
 				<label for="emailCliente">E-mail</label>
-				<input type="email" class="form-control" id="email" placeholder="E-mail" name="email" maxlength="60">
+				<input type="email" class="form-control" id="email" placeholder="E-mail" name="email" maxlength="60" value="<?php echo htmlspecialchars($email); ?>" >
 			  </div>
 			  
 			  
 			  <div class="form-group">
 				<label for="telefoneCliente">Telefone</label>
-				<input type="teç" class="form-control" id="telefoneCliente" placeholder="Telefone" name="telefone" maxlength="15">
+				<input type="teç" class="form-control" id="telefoneCliente" placeholder="Telefone" name="telefone" maxlength="15" value="<?php echo htmlspecialchars($telefone); ?>" >
         </div>
 
-        <?php
-        require_once('./model/Cliente.php');
-        require_once('./model/DAO/ClienteDAO.php');
+        <input type="submit" class="btn btn-primary" value="Atualizar" name="atualizar">
 
-          if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if(isset($_POST['nomeCliente'])){
-              
-              $cliente = new Cliente();
-              $cliente->setNome($_POST['nomeCliente']);
-              $cliente->setEmail($_POST['email']);
-              $cliente->setTelefone($_POST['telefone']);
-              
-              $clienteDAO = new ClienteDAO();
-              $clienteDAO->create($cliente);
+        <?php
+            $Cliente->setIdCliente($id);
+            $Cliente->setNome($_POST['nomeCliente']);
+            $Cliente->setEmail($_POST['email']);
+            $Cliente->setTelefone($_POST['telefone']);
+
+            if(isset($_POST["atualizar"])){
+                $clienteDAO->update($Cliente);
             }
-          }
-	  ?>
-        
-			  
-			  <input type="submit" class="btn btn-primary" value="Cadastrar">
+            
+    ?>
+    
     </form>
 
     </div>

@@ -72,7 +72,7 @@
         echo '<td>'. $cliente->getNome() .'</td>';
         echo '<td>'. $cliente->getEmail() .'</td>';
         echo '<td>'. $cliente->getTelefone() .'</td>';
-        echo '<td><button type="button" class="btn btn-info" onclick="editar()">Editar</button> <button type="button" class="btn btn-danger" onclick="deletar('. $cliente->getIdCliente().')">Remover</button></td>';
+        echo '<td><button type="button" class="btn btn-info" onclick="editar('. $cliente->getIdCliente().')">Editar</button> <button type="button" class="btn btn-danger" onclick="deletar('. $cliente->getIdCliente().')">Remover</button></td>';
         }
         ?>
 		  </tbody>
@@ -83,6 +83,10 @@
           var xmlhttp = new XMLHttpRequest();
           xmlhttp.open("GET", "ClienteDel.php?id=" + id, true);
           xmlhttp.send();
+        }
+
+        function editar(id){
+          window.location.replace("ClienteEdit.php?id=" + id);
         }
         </script>
       <hr>
