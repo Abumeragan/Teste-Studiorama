@@ -68,13 +68,24 @@
           echo '<th scope="row">'. $pedido->getNomeCliente().'</th>';
           echo '<td>'. $pedido->getNomeProduto() .'</td>';
           
-          echo '<td> <button type="button" class="btn btn-danger">Remover</button></td>';
+          echo '<td> <button type="button" class="btn btn-danger"onclick="deletar('. $pedido->getIdCliente().','.$pedido->getidProduto().')">Remover</button></td>';
           }
         ?> 
 			</tr>
 		  </tbody>
 		</table>
       </div>
+
+      <script>
+        function deletar(idCliente, idProduto){
+          
+          
+          var xmlhttp = new XMLHttpRequest();
+          xmlhttp.open("GET", "PedidoDel.php?idCliente=" + idCliente+ " & " +"idProduto="+idProduto, true);
+          xmlhttp.send();
+
+        }
+        </script>
 
       <hr>
 

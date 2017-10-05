@@ -21,9 +21,9 @@
             $sql->bindParam(4, $cliente->getIdCliente());
             $sql->execute();             
         }
-        public function delete($cliente) {
+        public function delete($id) {
             $sql = $this->con->prepare("DELETE FROM cliente WHERE idCliente = ?");
-            $sql->bindParam(1, $cliente->getIdCliente());
+            $sql->bindParam(1, $id);
             $sql->execute();
         }
         public function getCliente($id) {            

@@ -69,13 +69,20 @@
           echo '<td>'. $produto->getNome() .'</td>';
           echo '<td>'. $produto->getDescricao() .'</td>';
           echo '<td>'.'R$'. $produto->getPreco() .'</td>';
-          echo '<td><button type="button" class="btn btn-info">Editar</button> <button type="button" class="btn btn-danger">Remover</button></td>';
+          echo '<td><button type="button" class="btn btn-info">Editar</button> <button type="button" class="btn btn-danger" onclick="deletar('. $produto->getIdProduto().')">Remover</button></td>';
           }
         ?>
 		  </tbody>
 		</table>
       </div>
 
+      <script>
+        function deletar(id){
+          var xmlhttp = new XMLHttpRequest();
+          xmlhttp.open("GET", "ProdutoDel.php?id=" + id, true);
+          xmlhttp.send();
+        }
+        </script>
       
       <hr>
 

@@ -13,10 +13,10 @@
             $sql->execute();            
         }
         
-        public function delete($pedido) {
+        public function delete($idCliente, $idProduto) {
             $sql = $this->con->prepare("DELETE FROM pedido WHERE idCliente = ? AND idProduto = ?");
-            $sql->bindParam(1, $pedido->getIdCliente());
-            $sql->bindParam(2, $pedido->getIdProduto());
+            $sql->bindParam(1, $idCliente);
+            $sql->bindParam(2, $idProduto);
             $sql->execute();
         }
 

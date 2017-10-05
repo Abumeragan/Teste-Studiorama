@@ -21,9 +21,9 @@
             $sql->bindParam(4, $produto->getIdProduto());
             $sql->execute();             
         }
-        public function delete($produto) {
+        public function delete($id) {
             $sql = $this->con->prepare("DELETE FROM produto WHERE idProduto = ?");
-            $sql->bindParam(1, $produto->getIdProduto());
+            $sql->bindParam(1, $id);
             $sql->execute();
         }
         public function getProduto($id) {            

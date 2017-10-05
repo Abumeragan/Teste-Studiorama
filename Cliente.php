@@ -74,11 +74,17 @@
         echo '<td>'. $cliente->getTelefone() .'</td>';
         echo '<td><button type="button" class="btn btn-info" onclick="editar()">Editar</button> <button type="button" class="btn btn-danger" onclick="deletar('. $cliente->getIdCliente().')">Remover</button></td>';
         }
-      ?>
+        ?>
 		  </tbody>
 		</table>
       </div>
-      
+        <script>
+        function deletar(id){
+          var xmlhttp = new XMLHttpRequest();
+          xmlhttp.open("GET", "ClienteDel.php?id=" + id, true);
+          xmlhttp.send();
+        }
+        </script>
       <hr>
 
       <footer>
