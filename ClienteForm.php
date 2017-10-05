@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="pt-br"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -5,7 +6,7 @@
     <meta name="author" content="Rodrigo Dos Santos">
     <link rel="icon" href="https://v4-alpha.getbootstrap.com/favicon.ico">
 
-    <title>Controle de Estoque - Produtos</title>
+    <title>Controle de Estoque - Novo Cliente</title>
 
     <!-- Bootstrap core CSS -->
     <link href="./css/bootstrap.min.css" rel="stylesheet">
@@ -15,7 +16,7 @@
   </head>
 
   <body>
-    
+
     <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
       <button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -38,45 +39,59 @@
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <div class="container">
-        <h3 class="display-3">Produtos</h3>
-        <a class="btn btn-primary btn-lg" href="./ProdutoForm" role="button">+Cadastrar produto</a>
+        <h3 class="display-3">Novo cliente</h3>
       </div>
     </div>
 
     <div class="container">
       <!-- Example row of columns -->
-      <div class="table">
+      <div class="form">
         <table class="table">
-		  <thead>
-			<tr>
-			  <th>#</th>
-			  <th>Nome do produto</th>
-			  <th>Descrição</th>
-			  <th>Preço</th>
-			  <th>Ações</th>
-			</tr>
-		  </thead>
-		  <tbody>
+		  <form method="post">
+			  <div class="form-group">
+				<label for="idCliente">ID Cliente</label>
+				<input type="number" class="form-control" id="idCliente" placeholder="ID" disabled>
+			  </div>
+			  
+			  <div class="form-group">
+				<label for="nomeCliente">Nome do cliente</label>
+				<input type="text" class="form-control" id="nomeCliente" placeholder="Nome do Cliente" name="nomeCliente" maxlength="45" >
+			  </div>
+			  
+			  
+			  <div class="form-group">
+				<label for="emailCliente">E-mail</label>
+				<input type="email" class="form-control" id="email" placeholder="E-mail" name="email" maxlength="60" >
+			  </div>
+			  
+			  
+			  <div class="form-group">
+				<label for="telefoneCliente">Telefone</label>
+				<input type="teç" class="form-control" id="telefoneCliente" placeholder="Telefone" name="telefone" maxlength="15" >
+        </div>
+        
         <?php
-        require_once('./model/Produto.php');
-        require_once('./model/DAO/ProdutoDAO.php');
-        $produtoDAO = new ProdutoDAO();
-        $produtos = array();
-        $produtos = $produtoDAO->getAll();
-        foreach ($produtos as $produto) {
-          echo '<tr>';
-          echo '<th scope="row">'. $produto->getIdProduto().'</th>';
-          echo '<td>'. $produto->getNome() .'</td>';
-          echo '<td>'. $produto->getDescricao() .'</td>';
-          echo '<td>'.'R$'. $produto->getPreco() .'</td>';
-          echo '<td><button type="button" class="btn btn-info">Editar</button> <button type="button" class="btn btn-danger">Remover</button></td>';
+        
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+          if(isset($_POST['nomeCliente'])){
+            require_once('./model/Cliente.php');
+            require_once('./model/DAO/ClienteDAO.php');
+            $cliente = new Cliente();
+            $cliente->setNome($_POST['nomeCliente']);
+            $cliente->setEmail($_POST['email']);
+            $cliente->setTelefone($_POST['telefone']);
+            
+            $clienteDAO = new ClienteDAO();
+            $clienteDAO->create($cliente);
           }
-        ?>
-		  </tbody>
-		</table>
-      </div>
+      }
+	  ?>
+			  
+			  <input type="submit" class="btn btn-primary" value="Cadastrar">
+    </form>
+    
+    </div>
 
-      
       <hr>
 
       <footer>
@@ -93,6 +108,6 @@
     <script src="https://getbootstrap.com/assets/js/vendor/popper.min.js"></script>
     <script src="https://getbootstrap.com/dist/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="https://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="https://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>  
 
 </body></html>

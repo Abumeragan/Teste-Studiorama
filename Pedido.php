@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="pt-br"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -5,7 +6,7 @@
     <meta name="author" content="Rodrigo Dos Santos">
     <link rel="icon" href="https://v4-alpha.getbootstrap.com/favicon.ico">
 
-    <title>Controle de Estoque - Produtos</title>
+    <title>Controle de Estoque - Pedido</title>
 
     <!-- Bootstrap core CSS -->
     <link href="./css/bootstrap.min.css" rel="stylesheet">
@@ -15,7 +16,7 @@
   </head>
 
   <body>
-    
+
     <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
       <button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -38,8 +39,8 @@
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <div class="container">
-        <h3 class="display-3">Produtos</h3>
-        <a class="btn btn-primary btn-lg" href="./ProdutoForm" role="button">+Cadastrar produto</a>
+        <h3 class="display-3">Pedido</h3>
+        <a class="btn btn-primary btn-lg" href="./PedidoForm" role="button">+Cadastrar Pedido</a>
       </div>
     </div>
 
@@ -49,34 +50,32 @@
         <table class="table">
 		  <thead>
 			<tr>
-			  <th>#</th>
-			  <th>Nome do produto</th>
-			  <th>Descrição</th>
-			  <th>Preço</th>
-			  <th>Ações</th>
+			  <th>Cliente</th>
+        <th>Produto</th>
+        <th>Ação</th>
 			</tr>
 		  </thead>
 		  <tbody>
-        <?php
-        require_once('./model/Produto.php');
-        require_once('./model/DAO/ProdutoDAO.php');
-        $produtoDAO = new ProdutoDAO();
-        $produtos = array();
-        $produtos = $produtoDAO->getAll();
-        foreach ($produtos as $produto) {
+			<tr>
+      <?php
+        require_once('./model/Pedido.php');
+        require_once('./model/DAO/PedidoDAO.php');
+        $pedidoDAO = new PedidoDAO();
+        $pedidos = array();
+        $pedidos = $pedidoDAO->getAll();
+        foreach ($pedidos as $pedido) {
           echo '<tr>';
-          echo '<th scope="row">'. $produto->getIdProduto().'</th>';
-          echo '<td>'. $produto->getNome() .'</td>';
-          echo '<td>'. $produto->getDescricao() .'</td>';
-          echo '<td>'.'R$'. $produto->getPreco() .'</td>';
-          echo '<td><button type="button" class="btn btn-info">Editar</button> <button type="button" class="btn btn-danger">Remover</button></td>';
+          echo '<th scope="row">'. $pedido->getNomeCliente().'</th>';
+          echo '<td>'. $pedido->getNomeProduto() .'</td>';
+          
+          echo '<td> <button type="button" class="btn btn-danger">Remover</button></td>';
           }
-        ?>
+        ?> 
+			</tr>
 		  </tbody>
 		</table>
       </div>
 
-      
       <hr>
 
       <footer>
@@ -94,5 +93,5 @@
     <script src="https://getbootstrap.com/dist/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="https://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
-
+    
 </body></html>

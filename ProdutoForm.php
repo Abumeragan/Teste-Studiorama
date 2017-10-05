@@ -5,7 +5,7 @@
     <meta name="author" content="Rodrigo Dos Santos">
     <link rel="icon" href="https://v4-alpha.getbootstrap.com/favicon.ico">
 
-    <title>Controle de Estoque - Produtos</title>
+    <title>Controle de Estoque - Novo Produto</title>
 
     <!-- Bootstrap core CSS -->
     <link href="./css/bootstrap.min.css" rel="stylesheet">
@@ -15,7 +15,7 @@
   </head>
 
   <body>
-    
+
     <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
       <button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -38,51 +38,68 @@
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <div class="container">
-        <h3 class="display-3">Produtos</h3>
-        <a class="btn btn-primary btn-lg" href="./ProdutoForm" role="button">+Cadastrar produto</a>
+        <h3 class="display-3">Novo produto</h3>
       </div>
     </div>
 
     <div class="container">
       <!-- Example row of columns -->
-      <div class="table">
+      <div class="form">
         <table class="table">
-		  <thead>
-			<tr>
-			  <th>#</th>
-			  <th>Nome do produto</th>
-			  <th>Descrição</th>
-			  <th>Preço</th>
-			  <th>Ações</th>
-			</tr>
-		  </thead>
-		  <tbody>
+		  <form method="post">
+			  <div class="form-group">
+				<label for="idProduto">ID Produto</label>
+				<input type="number" class="form-control" id="idProduto" placeholder="ID" disabled>
+			  </div>
+			  
+			  <div class="form-group">
+				<label for="nomeProduto">Nome do produto</label>
+				<input type="text" class="form-control" id="nomeProduto" placeholder="Nome do Produto" name="nomeProduto" maxlength="45">
+			  </div>
+			  
+			  
+			  <div class="form-group">
+				<label for="descricaoProduto">Descrição do produto</label>
+				<input type="text" class="form-control" id="descricaoProduto" placeholder="Descrição" name="descricaoProduto" maxlength="100" >
+			  </div>
+			  
+			  
+			  <div class="form-group">
+				<label for="precoProduto">Preço do produto</label>
+				<input type="text" class="form-control" id="precoProduto" placeholder="Preço" name="precoProduto" maxlength="22" >
+        </div>
+        
         <?php
-        require_once('./model/Produto.php');
-        require_once('./model/DAO/ProdutoDAO.php');
-        $produtoDAO = new ProdutoDAO();
-        $produtos = array();
-        $produtos = $produtoDAO->getAll();
-        foreach ($produtos as $produto) {
-          echo '<tr>';
-          echo '<th scope="row">'. $produto->getIdProduto().'</th>';
-          echo '<td>'. $produto->getNome() .'</td>';
-          echo '<td>'. $produto->getDescricao() .'</td>';
-          echo '<td>'.'R$'. $produto->getPreco() .'</td>';
-          echo '<td><button type="button" class="btn btn-info">Editar</button> <button type="button" class="btn btn-danger">Remover</button></td>';
+        
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+          if(isset($_POST['nomeProduto'])){
+            require_once('./model/Produto.php');
+            require_once('./model/DAO/ProdutoDAO.php');
+            $produto = new Produto();
+            $produto->setNome($_POST['nomeProduto']);
+            $produto->setDescricao($_POST['descricaoProduto']);
+            $produto->setPreco($_POST['precoProduto']);
+            
+            $produtoDAO = new ProdutoDAO();
+            $produtoDAO->create($produto);
           }
-        ?>
-		  </tbody>
-		</table>
+      }
+	  ?>
+			  
+        <input type="submit" class="btn btn-primary" value="Cadastrar">
+        
+        
+		</form>
+		
       </div>
 
-      
       <hr>
 
       <footer>
         <p>© Rodrigo Dos Santos 2017</p>
       </footer>
     </div> <!-- /container -->
+
 
 
     <!-- Bootstrap core JavaScript
@@ -94,5 +111,5 @@
     <script src="https://getbootstrap.com/dist/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="https://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
-
-</body></html>
+    
+</body> </html>

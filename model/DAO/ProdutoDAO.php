@@ -3,6 +3,7 @@
         private $con;
         
         public function __construct(){
+            require_once('Database.php');
             $this->con = Database::getInstancia();
         }
         public function create($produto) {
